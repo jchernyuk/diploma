@@ -18,7 +18,7 @@ google-auth==1.13.1
 google-auth-httplib2==0.0.3
 googleapis-common-protos==1.51.0
 gyp==0.1
-httplib2==0.17.2
+httplib2==0.18.0
 idna==2.9
 ipaddress==1.0.17
 keyring==18.0.1

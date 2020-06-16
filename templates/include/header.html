@@ -1,0 +1,31 @@
+<div class="navbar">
+<div class="wrapper">
+            <div class="navbar__block">
+                <a href="/" class="navbar_logo">training</a>
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li class="nav__list_item"><a href="#" class="nav__list_link">Главная</a></li>
+                        <li class="nav__list_item"><a href="#" class="nav__list_link">Курсы</a></li>
+                        <li class="nav__list_item"><a href="#" class="nav__list_link">Профиль</a></li>
+                    </ul>
+                </nav>
+                <div class="navbar__search_block">
+                    <form action="{% url 'search' %}" method="get" class="search_form" id="search_form">
+                        <input type="search" placeholder="я шукаю..." name="q" class="navbar__search_field">
+                        <input type="submit" class="navbar__search_btn" value="Найти">
+                    </form>
+                </div>
+                <div class="navbar__authorization">
+                    <button class="navbar__authorization_btn">вход</button>
+                    <button class="navbar__authorization_btn">регистрация</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="header">
+        <div class="wrapper">
+            <p class="header_text">ПРОКАЧАЙ СЕБЯ В ОНЛАЙНЕ!</p>
+            <p class="header_subtext">Согласно исследованию Гарвардского университета, 85% достижений в работе связаны с так называемыми, личностными навыками или soft-skills.</p>
+            <a href="#" class="header_btn">Выбрать курс</a>
+        </div>
+    </header>

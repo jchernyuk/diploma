@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div id="sidebar">
+<h3>Courses</h3>
+<ul>
+<a href="{% url "CourseList" %}">All</a>
+</li>
+{% if course %}
+you are on 
+{{ course.name }} course
+<img
+          src="{{ course.img.url }}"
+          alt="course"
+          style="height: 100px; width: 199px;"
+          class="courses__elem_img"
+        />
+{% else %}
+{% for course in courses %}
+      <div class="courses__elem">
+        <img
+          src="{{ course.img.url }}"
+          alt="course"
+          style="height: 100px; width: 199px;"
+          class="courses__elem_img"
+        />
+        <p class="courses__elem_title">{{ course.name }}</p>
+        <p class="courses__elem_subtitle">{{ course.language }}</p>
+        <a href="{{ course.get_absolute_url }}" class="courses__elem_btn"
+          >Перейти</a
+        >
+      </div>
+      {% endfor %}
+
+    {% endif %}
+
+</ul>
+</div>
+<div id="main" class="product-list">
+{% if course %}
+Uroki
+{% for lesson in lessons %}
+<div class="item">
+<a href="{{ lesson.get_absolute_url }}">
+{{ lesson.name }}
+</div>
+
+{% endfor %}
+{% else %}
+{% endif %}
+
+</div>
+{% endblock %}

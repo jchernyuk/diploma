@@ -1,0 +1,116 @@
+{% extends 'courses/base.html' %}
+<div class="navbar">
+  <div class="wrapper">
+    <div class="navbar__block">
+      <a href="#" class="navbar_logo">training</a>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__list_item">
+            <a href="#" class="nav__list_link">Главная</a>
+          </li>
+          <li class="nav__list_item">
+            <a href="#" class="nav__list_link">Курсы</a>
+          </li>
+          <li class="nav__list_item">
+            <a href="#" class="nav__list_link">Профиль</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="navbar__search_block">
+        <input
+          type="search"
+          placeholder="я ищу..."
+          class="navbar__search_field"
+        />
+        <input type="submit" class="navbar__search_btn" value="Найти" />
+      </div>
+      <div class="navbar__authorization">
+        <button class="navbar__authorization_btn">вход</button>
+        <button class="navbar__authorization_btn">регистрация</button>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="header">
+  <div class="wrapper">
+    <p class="header_text">ПРОКАЧАЙ СЕБЯ В ОНЛАЙНЕ!</p>
+    <p class="header_subtext">
+      Согласно исследованию Гарвардского университета, 85% достижений в работе
+      связаны с так называемыми, личностными навыками или soft-skills.
+    </p>
+    <a href="#" class="header_btn">Выбрать курс</a>
+  </div>
+</header>
+<section class="why">
+  <div class="wrapper">
+    <div class="why__title">
+      <p class="why__title_text">
+        Зачем это мне?
+      </p>
+      <p class="why__title_subtext">
+        Soft-skills - это навыки, которые отвечают за личностную эффективность и
+        социальный успех.
+      </p>
+    </div>
+    <div class="why__block">
+      <div class="why__line">
+        <div class="why__line_elem">
+          <p class="why__elem_text">Умение управлять собой и своим временем</p>
+        </div>
+        <div class="why__line_elem">
+          <p class="why__elem_text">Логическое и критическое мышление</p>
+        </div>
+      </div>
+      <div class="why__line">
+        <div class="why__line_elem">
+          <p class="why__elem_text">Умение выступать публично</p>
+        </div>
+        <div class="why__line_elem">
+          <p class="why__elem_text">Успешное ведение переговоров</p>
+        </div>
+      </div>
+      <div class="why__line center">
+        <div class="why__line_elem">
+          <p class="why__elem_text">Самопрезентация</p>
+        </div>
+      </div>
+      <div class="why__line">
+        <div class="why__line_elem">
+          <p class="why__elem_text">Навыки коммуницирования</p>
+        </div>
+        <div class="why__line_elem">
+          <p class="why__elem_text">Ораторское искусство</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% block content %}
+<section class="courses">
+  <div class="wrapper">
+    <div class="courses__block">
+      {% for course in courses %}
+      <div class="courses__elem">
+        <img
+          src="{{ course.img.url }}"
+          alt="course"
+          style="height: 100px; width: 199px;"
+          class="courses__elem_img"
+        />
+        <p class="courses__elem_title">{{ course.name }}</p>
+        <p class="courses__elem_subtitle">{{ course.language }}</p>
+        <a href="{{ course.get_absolute_url }}" class="courses__elem_btn"
+          >Перейти</a
+        >
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% for lessons in lessons_list %}
+  <a href="{{ lessons.name }}" class="course__top_btn"
+    >Перейти к обучению {{ lessons.name }}</a
+  >
+
+  {% endfor %}
+</section>
+{% endblock content %}

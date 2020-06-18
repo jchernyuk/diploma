@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'libs/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'libs/slick/slick-theme.css' %}">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<section class="test">
+  <div class="wrapper">
+    <div class="test__block">
+      {% for poll in object.polls.all %}
+      <p class="test__questions">{{ poll.number }} {{ poll.question }}</p>
+      <div class="test__line">
+        {% for answer in poll.answers.all %}
+        <div class="test__elem" data-correct="true">
+          <input correct="{{ answer.is_correct }}" type="checkbox">
+          <p class="test__elem_text">{{ answer.choice_text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/libs.min.js' %}"></script>
+<script src="{% static 'libs/slick/slick.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+{% endblock %}

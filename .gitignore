@@ -6,3 +6,7 @@ db.sqlite3
 media
 .vscode
 .idea
+
+static_root/
+media/
+media_root/

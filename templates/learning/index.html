@@ -1,36 +1,7 @@
-{% extends 'courses/base.html' %}
-<div class="navbar">
-  <div class="wrapper">
-    <div class="navbar__block">
-      <a href="#" class="navbar_logo">training</a>
-      <nav class="nav">
-        <ul class="nav__list">
-          <li class="nav__list_item">
-            <a href="#" class="nav__list_link">Главная</a>
-          </li>
-          <li class="nav__list_item">
-            <a href="#" class="nav__list_link">Курсы</a>
-          </li>
-          <li class="nav__list_item">
-            <a href="#" class="nav__list_link">Профиль</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="navbar__search_block">
-        <input
-          type="search"
-          placeholder="я ищу..."
-          class="navbar__search_field"
-        />
-        <input type="submit" class="navbar__search_btn" value="Найти" />
-      </div>
-      <div class="navbar__authorization">
-        <button class="navbar__authorization_btn">вход</button>
-        <button class="navbar__authorization_btn">регистрация</button>
-      </div>
-    </div>
-  </div>
-</div>
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
 <header class="header">
   <div class="wrapper">
     <p class="header_text">ПРОКАЧАЙ СЕБЯ В ОНЛАЙНЕ!</p>
@@ -38,7 +9,7 @@
       Согласно исследованию Гарвардского университета, 85% достижений в работе
       связаны с так называемыми, личностными навыками или soft-skills.
     </p>
-    <a href="#" class="header_btn">Выбрать курс</a>
+    <a href="{% url 'learning:course-list' %}" class="header_btn">Выбрать курс</a>
   </div>
 </header>
 <section class="why">
@@ -85,11 +56,10 @@
     </div>
   </div>
 </section>
-{% block content %}
 <section class="courses">
   <div class="wrapper">
     <div class="courses__block">
-      {% for course in courses %}
+      {% for course in object_list %}
       <div class="courses__elem">
         <img
           src="{{ course.img.url }}"
@@ -99,17 +69,13 @@
         />
         <p class="courses__elem_title">{{ course.name }}</p>
         <p class="courses__elem_subtitle">{{ course.language }}</p>
-        <a href="{{ course.get_absolute_url }}" class="courses__elem_btn"
-          >Перейти</a
-        >
+        <a href="{{ course.get_absolute_url }}" class="courses__elem_btn">Перейти</a>
       </div>
       {% endfor %}
     </div>
   </div>
   {% for lessons in lessons_list %}
-  <a href="{{ lessons.name }}" class="course__top_btn"
-    >Перейти к обучению {{ lessons.name }}</a
-  >
+  <a href="{{ lessons.name }}" class="course__top_btn">Перейти к обучению {{ lessons.name }}</a>
 
   {% endfor %}
 </section>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'libs/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'libs/slick/slick-theme.css' %}">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<section class="edit">
+  <div class="wrapper">
+    <a href="{% url 'user:profile-detail' %}" class="back_btn">назад</a>
+    <div class="edit__block">
+      {{ form.errors }}
+      <form
+          method="post"
+          action="{% url 'user:profile-update' %}"
+          class="edit__form"
+          id="edit"
+          enctype="multipart/form-data"
+      >
+        <p class="edit__title">Редактировать профиль</p>
+        {% csrf_token %}
+        {{ form.first_name }}
+        {{ form.last_name }}
+        {{ form.email }}
+
+        <div class="fl_upld">
+          <label>{{ form.avatar }}Выберите фото профиля</label>
+        </div>
+        <button class="signup_btn">Применить</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

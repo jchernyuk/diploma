@@ -1,67 +1,75 @@
-from django.shortcuts import render, redirect
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.views.generic.base import View
+from django.views.generic.edit import FormMixin
+
 from .forms import ReviewForm
-from django.shortcuts import render, get_object_or_404
-
-from .models import Course, Lessons
+from .models import Course, Lesson
 
 
-# class CourseView(ListView):
-#     model = Course
-#     queryset = Course.objects.all()
-#     template_name = "courses/index.html"
-
-# class CourseDetailView(DetailView):
-#     model = Course
-#     slug_field = "url"
-#     template_name = "courses/course.html"
+class IndexView(ListView):
+    model = Course
+    template_name = 'learning/index.html'
 
 
-# отдаём в шаблон все курсы, потом если юзер выбирает курс активируется курс слаг и выдаёт уроки
-# фильтруя по курсу
-
-def CourseList(request, course_slug=None):
-    course = None
-    courses = Course.objects.all()
-    lessons = Lessons.objects.all()
-
-    if course_slug:
-        course = get_object_or_404(Course, slug=course_slug)
-        lessons = lessons.filter(course=course)
-    return render(request, 'courses/list.html', {'course': course,
-                                                 'courses': courses,
-                                                 'lessons': lessons, })
-
-
-def CourseDetail(request, slug):
-    lesson = get_object_or_404(Lessons, slug=slug)
-    return render(request, 'courses/detail.html', {'lesson': lesson, })
-
-
-class AddReview(View):
-    def post(self, request, pk):
-        form = ReviewForm(request.POST)
-        course = Course.objects.get(id=pk)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.course = course
-            form.save()
-        return redirect(course.get_absolute_url())
-
-
-# class LessonView(ListView):
-#     model = Lessons
-#     template_name = "courses/lesson_list.html"
-
-
-class Search(ListView):
-    paginate_by = 3
+class CourseListView(ListView):
+    model = Course
 
     def get_queryset(self):
-        return Course.objects.filter(title__icontains=self.request.GET.get("q"))
+        qs = super().get_queryset()
+        query = self.request.GET.get('q', None)
+        if query is not None:
+            qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        return qs
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context[q] = self.request.GET.get("q")
-        return context
+
+class CourseDetailView(FormMixin, DetailView):
+    model = Course
+    form_class = ReviewForm
+
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.course = self.get_object()
+        review.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        obj = self.get_object()
+        data.update({
+            'reviews': obj.reviews.all()
+        })
+        return data
+
+
+class LessonListView(ListView):
+    model = Lesson
+
+    def get_queryset(self):
+        obj = get_object_or_404(
+            Course,
+            slug=self.kwargs.get('course_slug'),
+        )
+        return obj.lessons.all()
+
+
+class LessonDetailView(DetailView):
+    model = Lesson
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Lesson,
+            course__slug=self.kwargs.get('course_slug'),
+            slug=self.kwargs.get('lesson_slug'),
+
+        )

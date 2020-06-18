@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'libs/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'libs/slick/slick-theme.css' %}">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<section class="profile">
+  <div class="wrapper">
+    <div class="profile_block">
+      <div class="person">
+        {% if object.avatar %}
+        <img src="{{ MEDIA_URL }}{{ object.avatar.url }}" alt="person" class="person_img">
+        {% else %}
+        <img src="{% static 'img/person.svg' %}" alt="person" class="person_img">
+        {% endif %}
+        <p class="person_name">{{ object.first_name}} {{ object.last_name}}</p>
+        <a href="{% url 'user:profile-update' %}" class="person_btn">Редактировать</a>
+      </div>
+      <div class="person__inform">
+        <div class="person__inform_cell">
+          <p class="person__inform_data">Юзернейм</p>
+          <p class="person__inform_value">{{ object.username}}</p>
+        </div>
+        <div class="person__inform_cell">
+          <p class="person__inform_data">Имя</p>
+          <p class="person__inform_value">{{ object.first_name}}</p>
+        </div>
+        <div class="person__inform_cell">
+          <p class="person__inform_data">Фамилия</p>
+          <p class="person__inform_value">{{ object.last_name}}</p>
+        </div>
+        <div class="person__inform_cell">
+          <p class="person__inform_data">Почта</p>
+          <p class="person__inform_value">{{ object.email}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{course.name}} {% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<section class="search__list">
+  <div class="wrapper">
+    <div class="search__list_block">
+      {% for course in object_list %}
+      <div class="search__list_elem">
+        <img src="{{ course.img.url }}" alt="" class="search__list_img">
+        <div class="search__list_info">
+          <p class="search__list_title">{{ course.name }}</p>
+          <span class="search__list_descr">{{ course.description }}</span>
+          <a href="{{ course.get_absolute_url }}" class="search__list_btn">Перейти</a>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+{% endblock content %}
+

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{course.name}} {% endblock %}
+
+{% block content %}
+<section class="course">
+  <div class="wrapper">
+    <div class="course__block">
+      <div class="course__top">
+        <img
+            src="{{ course.img.url }}"
+            alt=""
+            style="width: 100px; height: 100px;"
+            class="course__top_img"
+        />
+        <div class="course__top_info">
+          <p class="course__title">{{ course.name }}</p>
+          <p class="course__descr">{{ course.description }}</p>
+
+          <a href="{% url 'learning:lesson-list' course_slug=course.slug %}"
+             class="course__top_btn">Перейти к обучению</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="reviews" id="reviews">
+  <div class="wrapper">
+    <div class="title line">
+      <p class="title_text">Отзывы о курсе</p>
+    </div>
+    <div class="reviews__slider">
+      {% for review in course.reviews.all %}
+      <div class="reviews__block">
+        <img src="{% static 'img/person.svg' %}" alt="person" class="person_img">
+        <p class="reviews_name">{{ review.name }}</p>
+        <p class="reviews_text">{{ review.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="title">
+      <p class="title_text">Оставить отзыв</p>
+    </div>
+    <form
+        action=""
+        method="post"
+        id="reviews__form"
+        class="reviews__form"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="parent" id="contactparent" value=""/>
+      <input
+          type="text"
+          name="name"
+          class="reviews__form_field"
+          required
+          placeholder="Name"
+      />
+      <input
+          type="text"
+          name="email"
+          class="reviews__form_field"
+          required
+          placeholder="Email"
+      />
+      <textarea
+          name="text"
+          class="reviews__form_text"
+          required
+          placeholder="Text comment"
+      ></textarea>
+      <button type="submit" class="reviews__form_btn">Отправить</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

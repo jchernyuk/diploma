@@ -2,14 +2,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}
-        {% endblock %}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet">
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-    {% block content %} {% endblock %}
-    
+{% block navbar %}
+<div class="navbar">
+  <div class="wrapper">
+    <div class="navbar__block">
+      <a href="{% url 'mainpage' %}" class="navbar_logo">training</a>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__list_item">
+            <a href="{% url 'mainpage' %}" class="nav__list_link">Главная</a>
+          </li>
+          <li class="nav__list_item">
+            <a href="{% url 'learning:course-list' %}" class="nav__list_link">Курсы</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav__list_item">
+            <a href="{% url 'users:profile-detail' %}" class="nav__list_link">Профиль</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <div class="navbar__search_block">
+        <form action="{% url 'learning:course-list' %}">
+          <input
+              name="q"
+              type="search"
+              {% if request.GET.q %}
+              value="{{ request.GET.q }}"
+              {% endif %}
+              placeholder="я ищу..."
+              class="navbar__search_field"
+          />
+          <input type="submit" class="navbar__search_btn" value="Найти"/>
+        </form>
+      </div>
+      <div class="navbar__authorization">
+        {% if user.is_authenticated %}
+        <button onclick="location.href='{% url 'account_logout' %}'" class="navbar__authorization_btn">выход</button>
+        {% else %}
+        <button onclick="location.href='{% url 'account_login' %}'" class="navbar__authorization_btn">вход</button>
+        <button onclick="location.href='{% url 'account_signup' %}'" class="navbar__authorization_btn">регистрация
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block content %} {% endblock %}
+{% block script %} {% endblock %}
+
 </body>
 </html>
 

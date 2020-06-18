@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<section class="authorization">
+  <div class="wrapper">
+    <div class="authorization__block">
+      <form class="authorization_form" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form.login }}
+        {{ form.password }}
+        <button class="authorization_btn" type="submit">OK</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

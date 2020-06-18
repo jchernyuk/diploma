@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'libs/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'libs/slick/slick-theme.css' %}">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<section class="lessons__list">
+  <div class="wrapper">
+    <div class="lessons__list_block">
+      {% for lesson in object_list %}
+      <div class="lessons__list_elem">
+        <img src="{% static 'img/1.jpg' %}" alt="" class="lessons__list_img">
+        <p class="lessons__list_name">{{ lesson.name }}</p>
+        <p class="lessons__list_descr">{{ lesson.img.description }}</p>
+        <a href="{{ lesson.get_absolute_url }}" class="lessons__list_link">Пройти</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/libs.min.js' %}"></script>
+<script src="{% static 'libs/slick/slick.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+{% endblock %}
